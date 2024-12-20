@@ -169,3 +169,9 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Exclude saved media files generated when running this repo
+saved-data/**/*.txt
+saved-data/**/*.mp4
+saved-data/**/*.jpg
+saved-data/**/*.jpeg
