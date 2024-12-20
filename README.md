@@ -37,6 +37,6 @@ python save_media.py https://www.tiktok.com/@username123/photo/01234567891234567
 python save_media.py https://www.tiktok.com/@username123
 
 # Download all posts from a collection
-python save_media.py https://www.tiktok.com/@username123/collection/COLLECTION-NAME-0123456789123456789
+python save_media.py https://www.tiktok.com/@username123/collection/COLLECTION-0123456789123456789
 python save_media.py https://www.tiktok.com/t/XXXXXXXX/
 ```
