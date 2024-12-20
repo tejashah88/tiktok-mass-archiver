@@ -1,6 +1,6 @@
 [submodule "yt-dlp"]
 	path = yt-dlp
-	url = https://github.com/tejashah88/yt-dlp
+	url = https://github.com/tejashah88/yt-dlp.git
 [submodule "TikTok-Multi-Downloader"]
 	path = TikTok-Multi-Downloader
 	url = https://github.com/tejashah88/TikTok-Multi-Downloader.git
