@@ -129,18 +129,18 @@ if __name__ == '__main__':
         print('The given URL was not resolvable')
         sys.exit(1)
 
-    print(f'Resolved URL: {tt_resolved_url}')
-    if '/video/' in tt_resolved_url or '/photo/' in tt_resolved_url:
+    tt_clean_url = tt_resolved_url.split('?')[0]
+    print(f'Resolved clean URL: {tt_clean_url}')
+    if '/video/' in tt_resolved_url or '/photo/' in tt_clean_url:
         # The link is an individual post
 
-        resource_raw_slug = str(urlparse(tt_resolved_url).path).split('/')[1::2]
+        resource_raw_slug = str(urlparse(tt_clean_url).path).split('/')[1::2]
         final_slug = '-'.join(resource_raw_slug)[1:]
-        print(final_slug)
 
         # Create or append a temporary text file for the singular link
         SAVED_LINKS_FILE = os.path.join('saved-data', 'links', 'posts.txt')
-        with open(SAVED_LINKS_FILE, 'a') as fp:
-            fp.write(tt_resolved_url)
+        with open(SAVED_LINKS_FILE, 'w') as fp:
+            fp.write(tt_clean_url)
 
         # Ensure necessary directories are created
         SAVED_MEDIA_DIR = os.path.join('saved-data', 'media', 'posts')
@@ -152,7 +152,7 @@ if __name__ == '__main__':
         # The link has a collection of post links
 
         # Get string slug for creating output resources
-        resource_raw_slug = str(urlparse(tt_resolved_url).path).split('/')[-1]
+        resource_raw_slug = str(urlparse(tt_clean_url).path).split('/')[-1]
         if '@' in resource_raw_slug:
             resource_type = 'user'
             final_slug = resource_raw_slug[1:]
@@ -162,7 +162,7 @@ if __name__ == '__main__':
             final_slug = resource_raw_slug
 
         # Gather all post links into a single text file
-        expand_tt_post_links(tt_resolved_url, f'{resource_type}-{final_slug}.txt')
+        expand_tt_post_links(tt_clean_url, f'{resource_type}-{final_slug}.txt')
 
         # Ensure necessary directories are created
         SAVED_MEDIA_DIR = os.path.join('saved-data', 'media', resource_type, final_slug)
