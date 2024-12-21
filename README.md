@@ -34,8 +34,15 @@ python save_media.py https://www.tiktok.com/@username123
 # Download all posts from a collection
 python save_media.py https://www.tiktok.com/@username123/collection/COLLECTION-0123456789123456789
 python save_media.py https://www.tiktok.com/t/XXXXXXXX/
-```
 
+# Download only links from user or collection (saved to saved-data/links)
+python save_media.py https://www.tiktok.com/@username123 --only-links
+python save_media.py https://www.tiktok.com/t/XXXXXXXX/ --only-links
+
+# Download only media from set of existing links from user or collection (saved to saved-data/media)
+python save_media.py https://www.tiktok.com/@username123 --only-media
+python save_media.py https://www.tiktok.com/t/XXXXXXXX/ --only-media
+```
 
 ### Usage Help
 ```bash
