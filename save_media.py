@@ -1,10 +1,10 @@
-import re
 import os
 import sys
 import subprocess
 import http.client
 from urllib.parse import urlparse, urljoin
 
+# Source: ChatGPT (12/20/2024)
 def resolve_redirects(url):
     try:
         # Loop to handle multiple redirects until the final URL is resolved
@@ -65,7 +65,7 @@ def expand_tt_post_links(url, links_filename):
             text=True,
             bufsize=1,
         ) as process:
-            for line in process.stdout:
+            for line in process.stdout: # type: ignore
                 print(line, end='', flush=True)
 
         if process.returncode == 0:
@@ -101,7 +101,7 @@ def download_tt_media(links_filename, output_dir):
             text=True,
             bufsize=1,
         ) as process:
-            for line in process.stdout:
+            for line in process.stdout: # type: ignore
                 print(line, end='', flush=True)
 
         if process.returncode == 0:
@@ -131,6 +131,7 @@ if __name__ == '__main__':
 
     tt_clean_url = tt_resolved_url.split('?')[0]
     print(f'Resolved clean URL: {tt_clean_url}')
+
     if '/video/' in tt_resolved_url or '/photo/' in tt_clean_url:
         # The link is an individual post
 
