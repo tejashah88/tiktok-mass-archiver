@@ -36,6 +36,22 @@ python save_media.py https://www.tiktok.com/@username123/collection/COLLECTION-0
 python save_media.py https://www.tiktok.com/t/XXXXXXXX/
 ```
 
+
+### Usage Help
+```bash
+usage: save_media.py [-h] [--only-links] [--only-media] url
+
+Save public TikTok data for archiving
+
+positional arguments:
+  url           TikTok post/user/collection URL
+
+options:
+  -h, --help    show this help message and exit
+  --only-links  Only download the collection or user post links. Does nothing for individual posts.
+  --only-media  Only download media from existing links if it exists. Does nothing for individual posts.
+```
+
 ### Creating and using a "download" script
 If you have multiple users or collections that you want to download, either as one giant dump or incrementally, I'd recommend creating a `run.cmd` or similarly named file with all the `python save_media.py <URL>` commands. Here's an example `run.cmd` file:
 

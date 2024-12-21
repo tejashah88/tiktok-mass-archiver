@@ -1,3 +1,4 @@
+import argparse
 import os
 import sys
 import subprocess
@@ -114,13 +115,23 @@ def download_tt_media(links_filename, output_dir):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        print('Usage: python save_media.py <URL>')
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description='Save public TikTok data for archiving')
 
-    tt_url = sys.argv[1]
+    parser.add_argument("url", help="TikTok post/user/collection URL")
+    parser.add_argument("--only-links", action="store_true", help="Only download the collection or user post links. Does nothing for individual posts.")
+    parser.add_argument("--only-media", action="store_true", help="Only download media from existing links if it exists. Does nothing for individual posts.")
+
+    args = parser.parse_args()
+    tt_url = args.url
+    only_links = args.only_links
+    only_media = args.only_media
+
     if not tt_url.startswith('https://www.tiktok.com/'):
         print('The given URL is not a TikTok URL')
+        sys.exit(1)
+
+    if only_links and only_media:
+        print('"--only-links" and "--only-media" are mutually exclusive. See --help for more information.')
         sys.exit(1)
 
     # Resolve for final URL in case it's a short link
@@ -162,12 +173,14 @@ if __name__ == '__main__':
             resource_type = 'collection'
             final_slug = resource_raw_slug
 
-        # Gather all post links into a single text file
-        expand_tt_post_links(tt_clean_url, f'{resource_type}-{final_slug}.txt')
+        if not only_media:
+            # Gather all post links into a single text file
+            expand_tt_post_links(tt_clean_url, f'{resource_type}-{final_slug}.txt')
 
-        # Ensure necessary directories are created
-        SAVED_MEDIA_DIR = os.path.join('saved-data', 'media', resource_type, final_slug)
-        os.makedirs(SAVED_MEDIA_DIR, exist_ok=True)
+        if not only_links:
+            # Ensure necessary directories are created
+            SAVED_MEDIA_DIR = os.path.join('saved-data', 'media', resource_type, final_slug)
+            os.makedirs(SAVED_MEDIA_DIR, exist_ok=True)
 
-        # Download all media from scraped links
-        download_tt_media(f'{resource_type}-{final_slug}.txt', SAVED_MEDIA_DIR)
+            # Download all media from scraped links
+            download_tt_media(f'{resource_type}-{final_slug}.txt', SAVED_MEDIA_DIR)
