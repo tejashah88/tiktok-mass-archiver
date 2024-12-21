@@ -36,6 +36,8 @@ python save_media.py https://www.tiktok.com/@username123/collection/COLLECTION-0
 python save_media.py https://www.tiktok.com/t/XXXXXXXX/
 ```
 
+NOTE: Make sure to check for any posts that weren't fetched in `TikTok-Multi-Downloader\errors.txt`
+
 ## Development
 
 ### Updating from master
