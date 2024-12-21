@@ -1,6 +1,12 @@
 # TikTok Mass Archiver
 A set of scripts and related repos to mass-save public TikTok content. Has support for saving both **videos** and **photo sets** from individual posts, user accounts or collections.
 
+NOTE: This repo is meant to work on Windows but should be trivial to change it for MacOS/Linux. Just change the batch files in `scripts/` and the subprocess commands in `save_media.py` accordingly.
+
+## Requirements
+- Python 3.11 (minimum)
+- Git client
+
 ## Setup
 ```bash
 git clone --recurse-submodules https://github.com/tejashah88/tiktok-mass-archiver.git
