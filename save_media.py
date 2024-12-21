@@ -171,6 +171,3 @@ if __name__ == '__main__':
 
         # Download all media from scraped links
         download_tt_media(f'{resource_type}-{final_slug}.txt', SAVED_MEDIA_DIR)
-
-
-

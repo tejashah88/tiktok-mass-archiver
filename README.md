@@ -1,5 +1,5 @@
 # TikTok Mass Archiver
-A set of scripts and related repos to mass-save public TikTok content. Has support for saving both **videos** and **photo sets** from individual posts, user accounts or collections.
+A set of scripts and related repos to mass-save public TikTok content. Supports saving both **videos** and **photo sets** from individual posts, user accounts or collections, with incremental updating.
 
 NOTE: This repo is meant to work on Windows but should be trivial to change it for MacOS/Linux. Just change the batch files in `scripts/` and the subprocess commands in `save_media.py` accordingly.
 
@@ -36,7 +36,25 @@ python save_media.py https://www.tiktok.com/@username123/collection/COLLECTION-0
 python save_media.py https://www.tiktok.com/t/XXXXXXXX/
 ```
 
-NOTE: Make sure to check for any posts that weren't fetched in `TikTok-Multi-Downloader\errors.txt`
+### Creating and using a "download" script
+If you have multiple users or collections that you want to download, either as one giant dump or incrementally, I'd recommend creating a `run.cmd` or similarly named file with all the `python save_media.py <URL>` commands. Here's an example `run.cmd` file:
+
+```bat
+@REM Save a bunch of collections
+python save_media.py https://www.tiktok.com/t/XXXXXXXX/
+python save_media.py https://www.tiktok.com/t/XXXXXXXX/
+python save_media.py https://www.tiktok.com/t/XXXXXXXX/
+
+@REM Save a bunch of user posts
+python save_media.py https://www.tiktok.com/@username123
+python save_media.py https://www.tiktok.com/@username123
+python save_media.py https://www.tiktok.com/@username123
+```
+
+You can invoke it with `call run.cmd` in Windows command prompt.
+
+### Error checking
+Make sure to check for any posts that weren't fetched in `TikTok-Multi-Downloader\errors.txt`. In order to make sure all your desired media is downloaded, you'll have to run the command at least 2 or 3 times.
 
 ## Development
 
