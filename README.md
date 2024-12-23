@@ -81,10 +81,10 @@ Make sure to check for any posts that weren't fetched in `TikTok-Multi-Downloade
 
 ## Development
 
-### Updating from master
+### Updating from main branch
 ```bash
 # Pull latest changes from main repo
-git pull origin master
+git pull origin main
 
 # Update submodules by pulling for each one
 git submodule update --recursive --remote
