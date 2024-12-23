@@ -170,6 +170,9 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
+# Exclude potential private TikTok data exports
+user_data_tiktok.json
+
 # Exclude saved media files generated when running this repo
 saved-data/**/*.txt
 saved-data/**/*.mp4
