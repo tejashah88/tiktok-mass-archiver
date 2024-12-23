@@ -6,6 +6,7 @@ NOTE: This repo is meant to work on Windows but should be trivial to change it f
 ## Requirements
 - Python 3.11 (minimum)
 - Git client
+- jq (Install on windows with `winget install jqlang.jq`)
 
 ## Setup
 ```bash

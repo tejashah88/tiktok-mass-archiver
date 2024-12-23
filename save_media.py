@@ -49,7 +49,7 @@ def expand_tt_post_links(url, links_filename):
         commands = [
             "cd yt-dlp",
             "call env/Scripts/activate.bat",
-            f'call yt-dlp.cmd --flat-playlist -J {url} | ..\\bin\\jq.exe -r ".entries[].url" > ..\\{SAVED_LINKS_FILE}',
+            f'call yt-dlp.cmd --flat-playlist -J {url} | jq -r ".entries[].url" > ..\\{SAVED_LINKS_FILE}',
             "call deactivate.bat",
             "cd .."
         ]
