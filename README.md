@@ -57,9 +57,9 @@ python save_media.py https://www.tiktok.com/t/XXXXXXXX/ --only-links
 python save_media.py https://www.tiktok.com/@username123 --only-media
 python save_media.py https://www.tiktok.com/t/XXXXXXXX/ --only-media
 
-# Download all posts from a collection to a different output directory...
+# Download all posts from a collection to a different output directory (make sure to add double-quotes)
 ## Relative to project root directory
-python save_media.py https://www.tiktok.com/t/XXXXXXXX/ --output-dir path/to/archive
+python save_media.py https://www.tiktok.com/t/XXXXXXXX/ --output-dir "path/to/archive"
 ## Via an absolute directory path
 python save_media.py https://www.tiktok.com/t/XXXXXXXX/ --output-dir "C:\Users\Bob The Builder\Archive"
 ```
@@ -86,13 +86,13 @@ If you have multiple users or collections that you want to download, either as o
 ```bat
 @REM Save a bunch of collections
 python save_media.py https://www.tiktok.com/t/XXXXXXXX/
-python save_media.py https://www.tiktok.com/t/XXXXXXXX/
-python save_media.py https://www.tiktok.com/t/XXXXXXXX/
+python save_media.py https://www.tiktok.com/t/YYYYYYYY/
+python save_media.py https://www.tiktok.com/t/ZZZZZZZZ/
 
 @REM Save a bunch of user posts
-python save_media.py https://www.tiktok.com/@username123
-python save_media.py https://www.tiktok.com/@username123
-python save_media.py https://www.tiktok.com/@username123
+python save_media.py https://www.tiktok.com/@username123 --output-dir path/to/media
+python save_media.py https://www.tiktok.com/@username456 --output-dir path/to/media
+python save_media.py https://www.tiktok.com/@username789 --output-dir path/to/media
 ```
 
 You can invoke it with `call run.cmd` in Windows command prompt.
