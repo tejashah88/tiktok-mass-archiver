@@ -41,15 +41,14 @@ def resolve_redirects(url):
         print(f'Error occurred: {e}')
         return None
 
-
-def expand_tt_post_links(url, links_filename):
-    SAVED_LINKS_FILE = os.path.join('saved-data', 'links', links_filename)
+def expand_tt_post_links(url, links_path):
+    abs_links_path = os.path.abspath(links_path)
 
     try:
         commands = [
             "cd yt-dlp",
             "call env/Scripts/activate.bat",
-            f'call yt-dlp.cmd --flat-playlist -J {url} | jq -r ".entries[].url" > ..\\{SAVED_LINKS_FILE}',
+            f'call yt-dlp.cmd --flat-playlist -J {url} | jq -r ".entries[].url" > "{abs_links_path}"',
             "call deactivate.bat",
             "cd .."
         ]
@@ -77,15 +76,15 @@ def expand_tt_post_links(url, links_filename):
     except Exception as e:
         print(f"Error occurred: {e}")
 
-
-def download_tt_media(links_filename, output_dir):
-    SAVED_LINKS_FILE = os.path.join('saved-data', 'links', links_filename)
+def download_tt_media(links_path, output_dir):
+    abs_links_path = os.path.abspath(links_path)
+    abs_output_dir = os.path.abspath(output_dir)
 
     try:
         commands = [
             "cd TikTok-Multi-Downloader",
             "call env/Scripts/activate.bat",
-            f'python multitok.py --links ..\\{SAVED_LINKS_FILE} --no-watermark --skip-existing --workers 4 --api-version v3 --no-folders --output-dir "..\\{output_dir}"',
+            f'python multitok.py --links "{abs_links_path}" --no-watermark --skip-existing --workers 4 --api-version v3 --no-folders --output-dir "{abs_output_dir}"',
             "call deactivate.bat",
             "cd .."
         ]
@@ -93,7 +92,7 @@ def download_tt_media(links_filename, output_dir):
         # Join the commands using '&&' for sequential execution
         full_command = " && ".join(commands)
 
-        print("Starting Tiktok-Multi-Downloader to fetch TikTok media...")
+        print("Starting TikTok-Multi-Downloader to fetch TikTok media...")
         with subprocess.Popen(
             full_command,
             shell=True,
@@ -113,16 +112,17 @@ def download_tt_media(links_filename, output_dir):
     except Exception as e:
         print(f"Error occurred: {e}")
 
-
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Save public TikTok data for archiving')
+    parser = argparse.ArgumentParser(description='Save public TikTok data for archiving purposes.')
 
     parser.add_argument("url", help="TikTok post/user/collection URL")
+    parser.add_argument("--output-dir", metavar="DIR", default="saved-data", help="Specify the output directory for all saved media. Defaults to <PROJECT_ROOT>/saved-data")
     parser.add_argument("--only-links", action="store_true", help="Only download the collection or user post links. Does nothing for individual posts.")
     parser.add_argument("--only-media", action="store_true", help="Only download media from existing links if it exists. Does nothing for individual posts.")
 
     args = parser.parse_args()
     tt_url = args.url
+    output_dir = args.output_dir
     only_links = args.only_links
     only_media = args.only_media
 
@@ -143,6 +143,20 @@ if __name__ == '__main__':
     tt_clean_url = tt_resolved_url.split('?')[0]
     print(f'Resolved clean URL: {tt_clean_url}')
 
+    # Define relevent output directories
+    LINKS_DIR = os.path.join(output_dir, 'links')
+    MEDIA_DIR = os.path.join(output_dir, 'media')
+    COL_MEDIA_DIR   = os.path.join(MEDIA_DIR, 'collection')
+    POSTS_MEDIA_DIR = os.path.join(MEDIA_DIR, 'posts')
+    USER_MEDIA_DIR  = os.path.join(MEDIA_DIR, 'user')
+
+    # Create output directories if needed
+    os.makedirs(LINKS_DIR, exist_ok=True)
+    os.makedirs(MEDIA_DIR, exist_ok=True)
+    os.makedirs(COL_MEDIA_DIR, exist_ok=True)
+    os.makedirs(POSTS_MEDIA_DIR, exist_ok=True)
+    os.makedirs(USER_MEDIA_DIR, exist_ok=True)
+
     if '/video/' in tt_resolved_url or '/photo/' in tt_clean_url:
         # The link is an individual post
 
@@ -150,16 +164,12 @@ if __name__ == '__main__':
         final_slug = '-'.join(resource_raw_slug)[1:]
 
         # Create or append a temporary text file for the singular link
-        SAVED_LINKS_FILE = os.path.join('saved-data', 'links', 'posts.txt')
+        SAVED_LINKS_FILE = os.path.join(LINKS_DIR, 'posts.txt')
         with open(SAVED_LINKS_FILE, 'w') as fp:
             fp.write(tt_clean_url)
 
-        # Ensure necessary directories are created
-        SAVED_MEDIA_DIR = os.path.join('saved-data', 'media', 'posts')
-        os.makedirs(SAVED_MEDIA_DIR, exist_ok=True)
-
         # Download all media from scraped links
-        download_tt_media('posts.txt', SAVED_MEDIA_DIR)
+        download_tt_media(SAVED_LINKS_FILE, POSTS_MEDIA_DIR)
     else:
         # The link has a collection of post links
 
@@ -173,14 +183,14 @@ if __name__ == '__main__':
             resource_type = 'collection'
             final_slug = resource_raw_slug
 
+        SAVED_LINKS_FILE = os.path.join(LINKS_DIR, f'{resource_type}-{final_slug}.txt')
         if not only_media:
             # Gather all post links into a single text file
-            expand_tt_post_links(tt_clean_url, f'{resource_type}-{final_slug}.txt')
+            expand_tt_post_links(tt_clean_url, SAVED_LINKS_FILE)
 
         if not only_links:
             # Ensure necessary directories are created
-            SAVED_MEDIA_DIR = os.path.join('saved-data', 'media', resource_type, final_slug)
-            os.makedirs(SAVED_MEDIA_DIR, exist_ok=True)
+            SAVED_MEDIA_DIR = os.path.join(MEDIA_DIR, resource_type, final_slug)
 
             # Download all media from scraped links
-            download_tt_media(f'{resource_type}-{final_slug}.txt', SAVED_MEDIA_DIR)
+            download_tt_media(SAVED_LINKS_FILE, SAVED_MEDIA_DIR)

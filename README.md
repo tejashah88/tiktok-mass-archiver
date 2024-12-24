@@ -56,21 +56,28 @@ python save_media.py https://www.tiktok.com/t/XXXXXXXX/ --only-links
 # Download only media from set of existing links from user or collection (saved to saved-data/media)
 python save_media.py https://www.tiktok.com/@username123 --only-media
 python save_media.py https://www.tiktok.com/t/XXXXXXXX/ --only-media
+
+# Download all posts from a collection to a different output directory...
+## Relative to project root directory
+python save_media.py https://www.tiktok.com/t/XXXXXXXX/ --output-dir path/to/archive
+## Via an absolute directory path
+python save_media.py https://www.tiktok.com/t/XXXXXXXX/ --output-dir "C:\Users\Bob The Builder\Archive"
 ```
 
 ### Usage Help
 ```bash
-usage: save_media.py [-h] [--only-links] [--only-media] url
+usage: save_media.py [-h] [--output-dir DIR] [--only-links] [--only-media] url
 
-Save public TikTok data for archiving
+Save public TikTok data for archiving purposes.
 
 positional arguments:
-  url           TikTok post/user/collection URL
+  url               TikTok post/user/collection URL
 
 options:
-  -h, --help    show this help message and exit
-  --only-links  Only download the collection or user post links. Does nothing for individual posts.
-  --only-media  Only download media from existing links if it exists. Does nothing for individual posts.
+  -h, --help        show this help message and exit
+  --output-dir DIR  Specify the output directory for all saved media. Defaults to <PROJECT_ROOT>/saved-data
+  --only-links      Only download the collection or user post links. Does nothing for individual posts.
+  --only-media      Only download media from existing links if it exists. Does nothing for individual posts.
 ```
 
 ### Creating and using a "download" script
