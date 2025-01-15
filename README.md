@@ -1,11 +1,12 @@
 # TikTok Mass Archiver
-A set of scripts and related repos to mass-save **public** TikTok content. Supports saving both **videos** and **photo sets** from individual posts, user accounts or collections, with incremental updating.
+A commandline program to mass-save public TikTok content. Supports saving both videos and photo sets from individual posts, user accounts or public collections, with incremental updating and resilient retry logic.
 
 NOTE: This repo is meant to work on Windows but should be trivial to change it for MacOS/Linux. Just change the batch files in `scripts/` and the subprocess commands in `save_media.py` accordingly.
 
 NOTE: Downloading of private liked and favorited posts is **NOT** supported! See [the note below](#note-about-downloading-private-data-for-developers) about what needs to be done.
 
 ## Table of Contents
+  * [Features](#features)
   * [Requirements](#requirements)
   * [Setup](#setup)
   * [Usage](#usage)
@@ -15,6 +16,15 @@ NOTE: Downloading of private liked and favorited posts is **NOT** supported! See
   * [Development](#development)
     * [Updating from main branch](#updating-from-main-branch)
     * [Note about downloading private data (for developers)](#note-about-downloading-private-data-for-developers)
+
+## Features
+- [X] Download individual posts (video and photo set both supported)
+- [X] Download all posts from a user or public collection
+- [X] All media is downloaded without watermarking
+- [X] Save to any output directory of choice, ideal for use with external drives
+- [X] Resilient to slow/unstable internet connection with generous retry logic
+- [X] Run speedy incremental updates on user posts or collections
+- [X] Use in batch script for automatically archiving against multiple sources
 
 ## Requirements
 - Python 3.11 (minimum)
