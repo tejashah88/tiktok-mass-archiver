@@ -119,6 +119,12 @@ git pull origin main
 
 # Update submodules by pulling for each one
 git submodule update --recursive --remote
+
+# Delete the existing environments in case any dependencies for yt-dlp and TikTok-Multi-Downloader have changed
+call scripts/reset.cmd
+
+# Install updated dependencies for yt-dlp and TikTok-Multi-Downloader
+call scripts/setup.cmd
 ```
 
 ### Note about downloading private data (for developers)
