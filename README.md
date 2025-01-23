@@ -9,6 +9,7 @@ NOTE: Downloading of private liked and favorited posts is **NOT** supported! See
   * [Features](#features)
   * [Requirements](#requirements)
   * [Setup](#setup)
+  * [Applying New Updates](#applying-new-updates)
   * [Usage](#usage)
     * [Usage Help](#usage-help)
     * [Creating and using a "download" script](#creating-and-using-a-"download"-script)
@@ -41,6 +42,17 @@ call scripts/setup.cmd
 
 # Test that dependencies for yt-dlp and TikTok-Multi-Downloader were installed
 call scripts/test.cmd
+```
+
+## Applying New Updates
+This project will be updated as needed to fix bugs and add new features. It's highly recommended to do this often, especially in the wake of the turbulence of TikTok politics (as of early 2025).
+
+```bash
+# Pull from the main branch of this repository (as hosted on github.com)
+call scripts/update.cmd
+
+# Reset and reinstall the environments for yt-dlp and TikTok-Multi-Downloader
+call scripts/reinstall.cmd
 ```
 
 ## Usage
@@ -114,17 +126,11 @@ Make sure to check for any posts that weren't fetched in `TikTok-Multi-Downloade
 
 ### Updating from main branch
 ```bash
-# Pull latest changes from main repo
-git pull origin main
+# Pull from the main branch of this repository (as hosted on github.com)
+call scripts/update.cmd
 
-# Update submodules by pulling for each one
-git submodule update --recursive --remote
-
-# Delete the existing environments in case any dependencies for yt-dlp and TikTok-Multi-Downloader have changed
-call scripts/reset.cmd
-
-# Install updated dependencies for yt-dlp and TikTok-Multi-Downloader
-call scripts/setup.cmd
+# Reset and reinstall the environments for yt-dlp and TikTok-Multi-Downloader
+call scripts/reinstall.cmd
 ```
 
 ### Note about downloading private data (for developers)
