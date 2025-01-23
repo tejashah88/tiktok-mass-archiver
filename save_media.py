@@ -41,6 +41,7 @@ def resolve_redirects(url):
         print(f'Error occurred: {e}')
         return None
 
+
 def expand_tt_post_links(url, links_path):
     abs_links_path = os.path.abspath(links_path)
 
@@ -75,6 +76,7 @@ def expand_tt_post_links(url, links_path):
 
     except Exception as e:
         print(f"Error occurred: {e}")
+
 
 def download_tt_media(links_path, output_dir):
     abs_links_path = os.path.abspath(links_path)
@@ -111,6 +113,7 @@ def download_tt_media(links_path, output_dir):
 
     except Exception as e:
         print(f"Error occurred: {e}")
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Save public TikTok data for archiving purposes.')

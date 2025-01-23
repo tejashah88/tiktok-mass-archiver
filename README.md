@@ -11,7 +11,7 @@ NOTE: Downloading of private liked and favorited posts is **NOT** supported! See
   * [Setup](#setup)
   * [Usage](#usage)
     * [Usage Help](#usage-help)
-    * [Creating and using a "download" script](#creating-and-using-a-download-script)
+    * [Creating and using a "download" script](#creating-and-using-a-"download"-script)
     * [Error checking](#error-checking)
   * [Development](#development)
     * [Updating from main branch](#updating-from-main-branch)
