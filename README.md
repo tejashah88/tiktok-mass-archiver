@@ -55,6 +55,19 @@ call scripts/update.cmd
 call scripts/reinstall.cmd
 ```
 
+**NOTE**: If you downloaded this project prior to 1/23/2025, you'll need to explicitly run the `git` update commands, but afterwards the `call scripts/update.cmd` will work as intended.
+
+```bash
+# Pull latest changes from main repo
+git pull origin main
+
+# Update submodules by pulling for each one
+git submodule update --recursive --remote
+
+# Reset and reinstall the environments for yt-dlp and TikTok-Multi-Downloader
+call scripts/reinstall.cmd
+```
+
 ## Usage
 NOTE: The following links are templates. Any links you provide should match this template.
 ```bash
