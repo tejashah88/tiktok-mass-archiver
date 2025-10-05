@@ -175,8 +175,10 @@ cython_debug/
 *.bat
 !scripts/*.cmd
 
-# Exclude potential private TikTok data exports
+# Exclude potential private TikTok data exports & transformed data from jq
 user_data_tiktok.json
+personal_likes.txt
+personal_favorites.txt
 
 # Exclude saved media files generated when running this repo
 saved-data/**/*.txt

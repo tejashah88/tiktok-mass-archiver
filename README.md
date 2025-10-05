@@ -3,7 +3,7 @@ A commandline program to mass-save public TikTok content. Supports saving both v
 
 NOTE: This repo is meant to work on Windows but should be trivial to change it for MacOS/Linux. Just change the batch files in `scripts/` and the subprocess commands in `save_media.py` accordingly.
 
-NOTE: Downloading of private liked and favorited posts is **NOT** supported! See [the note below](#note-about-downloading-private-data-for-developers) about what needs to be done.
+NOTE: Downloading of private liked and favorited posts is **NOT fully** supported! See [the note below](#note-about-downloading-liked-and-favorited-videos) about what needs to be done.
 
 ## Table of Contents
   * [Features](#features)
@@ -12,11 +12,12 @@ NOTE: Downloading of private liked and favorited posts is **NOT** supported! See
   * [Applying New Updates](#applying-new-updates)
   * [Usage](#usage)
     * [Usage Help](#usage-help)
-    * [Creating and using a "download" script](#creating-and-using-a-"download"-script)
+    * [Creating and using a download script](#creating-and-using-a-download-script)
     * [Error checking](#error-checking)
   * [Development](#development)
     * [Updating from main branch](#updating-from-main-branch)
-    * [Note about downloading private data (for developers)](#note-about-downloading-private-data-for-developers)
+    * [Note about downloading liked and favorited videos](#note-about-downloading-liked-and-favorited-videos)
+
 
 ## Features
 - [X] Download individual posts (video and photo set both supported)
@@ -115,7 +116,7 @@ options:
   --only-media      Only download media from existing links if it exists. Does nothing for individual posts.
 ```
 
-### Creating and using a "download" script
+### Creating and using a download script
 If you have multiple users or collections that you want to download, either as one giant dump or incrementally, I'd recommend creating a `run.cmd` or similarly named file with all the `python save_media.py <URL>` commands. Here's an example `run.cmd` file:
 
 ```bat
@@ -146,7 +147,7 @@ call scripts/update.cmd
 call scripts/reinstall.cmd
 ```
 
-### Note about downloading private data (for developers)
+### Note about downloading liked and favorited videos
 This project does not directly support downloading your liked or favorited posts from your personal account, but you can at least grab those lists with `jq` and an export of your TikTok data.
 
 ```bash
@@ -154,4 +155,12 @@ type user_data_tiktok.json | jq -r ".Activity.\"Like List\".ItemFavoriteList[].l
 type user_data_tiktok.json | jq -r ".Activity.\"Favorite Videos\".FavoriteVideoList[].Link" > personal_favorites.txt
 ```
 
-The links will be in the format of "https://www.tiktokv.com/share/video/0123456789123456789/", which isn't ideal since we don't have username information that's needed for `TikTok-Multi-Downloader`. Additionally, trying to do 301 resolves doesn't work as expected since it resolves to "https://www.tiktok.com/@/video/0123456789123456789/", and then changes the URL via some suspected JavaScript. You can still get the original video otherwise, and if you're willing to tinker with the downloader code, it'll work with minimal fuss.
+After extracting the links, you can extract your videos/photosets from that file path with the following syntax:
+```bash
+python extract_from_file.py personal_likes.txt     --output-dir "path/to/liked_videos"
+python extract_from_file.py personal_favorites.txt --output-dir "path/to/favorited_videos"
+```
+
+Note that due to some dynamic javascript shenanigans, these posts will not be categorized per-creator. Additionally, it's recommended to run this script a few times since some "removed posts" can be the result of making too many requests to TikTok.
+
+On a technical level, the data exports will have their links in the format of "https://www.tiktokv.com/share/video/0123456789123456789/", which eventually 301-resolve to a URL like "https://www.tiktok.com/@/video/0123456789123456789/". Since the username isn't resolved after redirects and seems to be changed within dyanmic javascript shenanigans, the user handle will be substituted with `@[tiktok-user]` to allow `TikTok-Multi-Downloader` to work.
