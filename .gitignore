@@ -170,9 +170,10 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-# Exclude user-created batch files
+# Exclude user-created batch files, except any in the 'scripts' folder
 *.cmd
 *.bat
+!scripts/*.cmd
 
 # Exclude potential private TikTok data exports
 user_data_tiktok.json
